@@ -11,16 +11,16 @@ class User(Document):
 	gender = StringField(choices=("male", "female", "can't say", "not specified"), required=True)
 	joined_on = DateTimeField(required=True)
 	photo = ImageField()
-	# thumbnail_size(500,500,True)
-
+#thumbnail_size(500,500)
 class Post(Document):
-    title = StringField(max_length=120, required=True)
-    author = ReferenceField(User)
-    content = StringField(required=True)
-    created_on = DateTimeField(required=True)
-    last_updated = DateTimeField(required=True)
-    image = ImageField()
-    tags = ListField(StringField(max_length=30))
+	pid = IntField(required=True, primary_key=True)
+	title = StringField(max_length=120,required=True)
+	author = StringField(required=True)
+	content = StringField()
+	created_on = DateTimeField(required=True)
+	last_updated = DateTimeField(required=True)
+	#image = ImageField()
+	tags = ListField(StringField(max_length=30))
 
 
 '''

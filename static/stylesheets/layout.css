@@ -4,7 +4,17 @@ body{
 	box-sizing: border-box;
 	font-family: 'Open Sans', sans-serif;
 	overflow-x: hidden;
-}
+}	
+	.list-unstyled a, .list-unstyled a span{
+		color: white;
+	}
+	.card h5{
+		padding: 1.25rem 1.25rem;
+		margin-top: 0;
+	}
+	#category a{
+		color: black;
+	}
 	.jumbotron {
 		background: #358CCE;
 		color: #FFF;
