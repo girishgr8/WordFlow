@@ -4,40 +4,46 @@
 <div class="container">
 	{% if posts %}
 	<div class="row">
-      <div class="col-md-8">
-      	<div class="row mb-2">
-	      	<div class="col-md-8">
-	        <h1 class="my-4">Welcome
-	          <small>{{username}}</small>
-	        </h1>
-	        </div>
-			<div class="col-md-4">
-				<a href="/{{username}}/new/" class="btn btn-primary py-auto mt-4 mx-4"><span class="pr-3"><i class="fas fa-pencil-alt"></i></span><b>New Post</b></a>
-			</div>
-		</div>
+        <div class="col-md-8">
+            <div class="row mb-2">
+                <div class="col-md-8">
+        	        <h1 class="my-4">Welcome
+        	          <small>{{username}}</small>
+        	        </h1>
+    	        </div>
+    			<div class="col-md-4">
+    				<a href="/{{username}}/new/" class="btn btn-primary py-auto mt-4 pull-right"><span class="pr-3"><i class="fas fa-pencil-alt"></i></span><b>New Post</b></a>
+    			</div>
+		    </div>
         {% for post in posts %}
         <div class="card mb-4">
-          <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
-          <div class="card-body">
-            <h2 class="card-title">{{post.title}}</h2>
-            <p class="card-text">{{post.content}}</p>
-            <a href="/{{username}}/view/{{post.pid}}" class="btn btn-primary">Read More &rarr;</a>
-            <!--
-            <a href="/{{username}}/view/{{post.pid}}" class="btn btn-info mr-4"><span class="px-2"><i class="fas fa-eye"></i></span></a>
-        	-->
-			<a href="/{{username}}/edit/{{post.pid}}" class="btn btn-success mx-4"><span class="px-2"><i class="fas fa-edit"></i></span> <b>Edit</b></a>
-			<a href="/delete/{{post.pid}}" class="btn btn-danger"><span class="px-2"><i class="fas fa-trash-alt"></i></span>Delete</a>
-          </div>
-          <div class="card-footer text-muted">
-          	<div class="row">
-	          	<div class="col-md-6">
-	            	Posted on {{post.created_on}}
-	            </div>
-	            <div class="col-md-6 text-right">
-	            	Last Updated at {{post.last_updated}}
-	            </div>
+            <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
+            <div class="card-body">
+                <h2 class="card-title">{{post.title}}</h2>
+                <p class="card-text">{{post.content}}</p>
+                <div class="row my-4">
+                    <div class="col-md-6 pl-4">
+                        <a href="/{{post.author}}/view/{{post.pid}}" class="btn btn-primary">Read More &rarr;</a>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <p class="mb-0 text-primary" style="font-size: 17px;"><b>Written By - {{post.author}}</b></p>
+                    </div>
+                </div>
+    			<!--
+                <a href="/{{username}}/edit/{{post.pid}}" class="btn btn-success mx-4"><span class="px-2"><i class="fas fa-edit"></i></span> <b>Edit</b></a>
+    			<a href="/delete/{{post.pid}}" class="btn btn-danger"><span class="px-2"><i class="fas fa-trash-alt"></i></span>Delete</a>
+                -->
             </div>
-          </div>
+            <div class="card-footer text-muted">
+          	    <div class="row">
+	          	    <div class="col-md-6">
+                        Posted on {{post.created_on}}
+	                </div>
+                    <div class="col-md-6 text-right">
+                        Updated on {{post.last_updated}}
+                    </div>
+                </div>
+            </div>
         </div>
 		{% endfor %}
         <!-- Pagination -->
@@ -112,7 +118,7 @@
       </div>
     </div>
 
-	{% else %}
+	{% elif not(current_user_posts) %}
 	<div class="jumbotron bg-secondary">
 	  	<div class="container">
 	    	<h1 class="display-5">Welcome <small >{{username}}</small></h1>

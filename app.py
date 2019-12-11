@@ -1,18 +1,15 @@
 from flask import Flask, redirect, url_for, render_template, request, session, flash, Markup
 from flask_mail import Mail, Message
-from pymongo import MongoClient
 import datetime
-from models.db import *
-from mongoengine import *
 from werkzeug.utils import secure_filename
 from wtforms import Form, StringField, TextAreaField, PasswordField, FileField, SelectField, TextField, validators
 from wtforms.validators import DataRequired, Email
 from passlib.hash import sha256_crypt
 from wtforms.fields.html5 import EmailField, DateField
-import dns
 import json
 import os
 from functools import wraps
+from flask_sqlalchemy import SQLAlchemy
 
 with open('config.json') as f:
 	params = json.load(f)
@@ -21,6 +18,8 @@ with open('config.json') as f:
 app = Flask(__name__)
 # Creating an instance of Mail class ...
 mail = Mail(app)
+
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 app.secret_key = params["SECRET_KEY"]
 senderEmail = 'codeintegrate1999@gmail.com'
@@ -39,12 +38,30 @@ app.config['MAIL_DEBUG '] = True
 app.config['MAIL_SUPPRESS_SEND'] = False
 # Maximum file size allowed for upload
 app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'db.sqlite')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
-# Connection to 'bloggerbit' MongoDB database....
-dbName = str(params["DB_NAME"])
-dbUser = str(params["DB_USER"])
-dbPass = str(params["DB_PASS"])
-connect(host='mongodb+srv://'+dbUser+':'+dbPass+'@devcluster-qbbgy.mongodb.net/'+dbName+'?retryWrites=true&w=majority')
+# Creating an instance of SQLAlchemy class ...
+db = SQLAlchemy(app)
+
+class User(db.Model):
+	username = db.Column(db.String(40), primary_key = True, nullable=False)
+	email = db.Column(db.String(100), unique=True, nullable=False)
+	name = db.Column(db.String(), nullable=False)
+	password = db.Column(db.String(), nullable=False)
+	bdate = db.Column(db.String(), nullable=False)
+	phone = db.Column(db.String())
+	gender = db.Column(db.String(10))
+	joined_on = db.Column(db.DateTime(), server_default=db.text('LOCALTIMESTAMP'))
+
+class Post(db.Model):
+	pid = db.Column(db.Integer, primary_key=True)
+	title= db.Column(db.String(80), nullable=False)
+	author = db.Column(db.String(40), nullable=False)
+	content = db.Column(db.String(100), nullable=False)
+	created_on = db.Column(db.DateTime, nullable=False)
+	last_updated = db.Column(db.DateTime, nullable=False)
+	tags = db.Column(db.String(50), nullable=False)
 
 # route() function is a decorator which tells the application which URL should call with the associated function..
 # Render the html file which is to be loaded on the requested url...
@@ -55,7 +72,7 @@ connect(host='mongodb+srv://'+dbUser+':'+dbPass+'@devcluster-qbbgy.mongodb.net/'
 
 def permit_login(username, password):
 	try:
-		user = User.objects.get(pk=username)
+		user = User.query.filter_by(username=username).first()
 		# Compare Passwords...
 		if sha256_crypt.verify(password, user.password):
 			session['username'] = username
@@ -93,7 +110,7 @@ def home():
 
 # Form Validation for RegisterForm
 class RegisterForm(Form):
-	username = TextField('Username', [DataRequired(), validators.length(min=10, max=20)])
+	username = TextField('Username', [DataRequired(), validators.length(min=4, max=13)])
 	name = TextField('Full Name', [DataRequired(), validators.length(max=80)])
 	email = EmailField('Email', [DataRequired(), Email()])
 	password = PasswordField('Password', [
@@ -119,13 +136,12 @@ def register():
 		bdate = request.form["birthDate"]
 		gender = request.form["gender"]
 		profile_image = request.files["profile_image"]
-		user = User(username, email=email, name=name, password=password, bdate=bdate, gender=gender, joined_on=datetime.datetime.utcnow())
-		if profile_image.filename!= '':
-			user.photo.replace(profile_image, filename=secure_filename(str(username+'.'+profile_image.filename.split('.')[-1])))
-		user.save()
+		user = User(username=username, email=email, name=name, password=password, bdate=bdate, gender=gender, joined_on=datetime.datetime.utcnow())
+		db.session.add(user)
+		db.session.commit()
 		session['username']	= username
 		session['logged_in'] = True
-		flash('You are registered now and can log in', category='success')
+		flash('Successfully created account !', category='success')
 		return redirect(url_for("dashboard"))
 	return render_template("register.html", form=form)
 
@@ -133,11 +149,13 @@ def register():
 @is_logged_in
 def dashboard():
 	if 'logged_in' in session:
-		posts = Post.objects(author=session["username"])
+		# Getting recent posts...
+		posts = Post.query.filter(Post.author != session["username"]).order_by(Post.created_on.desc(), Post.last_updated.desc()).all()
+		current_user_posts = Post.query.filter_by(author=session["username"]).all()
 		for post in posts:
 			post.created_on= str(post.created_on).split('.')[0]
 			post.last_updated=str(post.last_updated).split('.')[0]
-		return render_template("dashboard.html", username=session['username'], logged_in=session['logged_in'], posts=posts)
+		return render_template("dashboard.html", username=session['username'], logged_in=session['logged_in'], posts=posts, current_user_posts=current_user_posts)
 	else:
 		return redirect(url_for('home'))
 
@@ -189,11 +207,12 @@ def contact():
 			return render_template("contact.html", logged_in=False)
 
 @app.route('/logout' , methods=['POST', 'GET'])
+@is_logged_in
 def logout():
 	session.clear()
 	return redirect(url_for('home'))
 
-@app.errorhandler(404) 
+@app.errorhandler(404)
 def not_found(e):
 	if 'logged_in' in session:
 		return render_template('notfound.html', logged_in=True)
@@ -207,50 +226,54 @@ class ArticleForm(Form):
 	tags = TextAreaField('Tags')
 
 @app.route('/<user>/new/', methods=['POST', 'GET'])
+@is_logged_in
 def newPost(user):
 	form = ArticleForm(request.form)
 	if request.method == 'POST' and form.validate():
 		title = request.form["title"]
 		content = request.form["content"]
-		tags = request.form["tags"].split(' ')
+		tags = request.form["tags"]
 		try:
-			all_posts=Post.objects()
-			last_pid = 1
-			for i in all_posts:
-				last_pid=i.pid
-			post = Post(last_pid+1, title=title, author=user, content=content, created_on=datetime.datetime.utcnow(), last_updated=datetime.datetime.utcnow(), tags=tags)
-			post.save()
+			post = Post(title=title, author=user, content=content, created_on=datetime.datetime.utcnow(), last_updated=datetime.datetime.utcnow(), tags=tags)
+			db.session.add(post)
+			db.session.commit()
 			flash('New post saved sucesfully', category='success')
 			return redirect(url_for('dashboard'))
 		except Exception as e:
 			print(e)
-			flash(Markup('<b>Some error occured<b>New Post not created..'))
+			flash(Markup('<b>Some error occured</b> ! New Post not created..'), category='danger')
 	return render_template('write.html', form=form, username=user)
 
 @app.route('/<user>/edit/<int:pid>', methods=['POST', 'GET'])
+@is_logged_in
 def editPost(user,pid):
 	form = ArticleForm(request.form)
 	if request.method == 'POST' and form.validate():
 		title = request.form["title"]
 		content = request.form["content"]
-		tags = request.form["tags"].split(' ')
-		post = Post.objects.get(pk=pid, author=user)
-		Post.objects(pk=pid).update_one(title=title, content=content, tags=tags, last_updated=datetime.datetime.utcnow())
-		post = Post.objects.get(pk=pid, author=user)
+		tags = request.form["tags"]
+		post = Post.query.filter_by(pid=pid).first()
+		post.title = title
+		post.content = content
+		post.tags = tags
+		post.last_updated = datetime.datetime.utcnow()
+		db.session.commit()
 		flash('Post edited succesfully', category='success')
 		return render_template('edit.html',username=user, form=form, post=post, logged_in=True)
 
-	elif request.method=='GET' and session["logged_in"]==True:
-		post = Post.objects.get(pk=pid, author=user)
+	elif request.method=='GET':
+		post = Post.query.filter_by(pid=pid).first()
 		form.content.data = post.content
-		for tag in post.tags:
-			form.tags.data+= tag+' '
+		form.tags.data = post.tags
 		return render_template('edit.html', form=form, post=post, username=user, logged_in=True)
 
 @app.route('/delete/<int:pid>', methods=['POST', 'GET'])
+@is_logged_in
 def deletePost(pid):
-	if request.method=='GET' and 'logged_in' in session:
-		post = Post.objects(pk=pid,author=session["username"]).delete()
+	if request.method=='GET':
+		del_post = Post.query.filter_by(pid=pid).first()
+		db.session.delete(del_post)
+		db.session.commit()
 		flash('Post deleted succesfully', category='success')
 	return redirect(url_for('dashboard'))
 
@@ -262,9 +285,30 @@ def pricing():
 	return render_template('pricing.html')
 
 @app.route('/<user>/view/<int:pid>')
+@is_logged_in
 def viewPost(user,pid):
-	post = Post.objects.get(pk=pid)
-	return render_template('post.html', username=user, logged_in=True, post=post)
+	post = Post.query.filter_by(pid=pid).first()
+	post.created_on= str(post.created_on).split('.')[0]
+	post.last_updated=str(post.last_updated).split('.')[0]
+	return render_template('post.html', username=session["username"], logged_in=True, post=post)
+
+@app.route('/<user>/blogs')
+@is_logged_in
+def userBlogs(user):
+	posts = Post.query.filter_by(author=user).all()
+	for post in posts:
+		post.created_on= str(post.created_on).split('.')[0]
+		post.last_updated=str(post.last_updated).split('.')[0]
+	return render_template('post.html', username=session["username"], logged_in=True, post=posts, userBlog=True)
+
+@app.route('/profile/<user>', methods=['GET', 'POST'])
+@is_logged_in
+def profile(user):
+	if request.method == 'GET':
+		user = User.query.filter_by(username=user).first()
+		print(user.phone)
+		return render_template('profile.html', username=session["username"], logged_in=True, user=user)
+
 
 if __name__ == "__main__":
 # debug=True helps to render changes of website without need for running the server again & again....

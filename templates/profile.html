@@ -1,0 +1,105 @@
+{% extends "layout.html" %}
+{% block title %} 
+    Edit Profile
+{% endblock %}
+
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/profile.css') }}">
+	<div class="container">
+    <h1>Edit Profile</h1>
+    <hr>
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-3">
+        <div class="text-center">
+          <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
+          <h6>Upload a different photo...</h6>
+          
+          <input type="file" class="form-control">
+        </div>
+      </div>
+      
+      <!-- edit form column -->
+      <div class="col-md-9 personal-info">
+        <div class="alert alert-info alert-dismissable">
+          <a class="panel-close close" data-dismiss="alert">×</a> 
+          <i class="fa fa-coffee"></i>
+          This is an <strong>alert</strong>. Use this to show important messages to the user.
+        </div>
+        <h3>Personal info</h3>
+        
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <label class="col-md-3 control-label">Username </label>
+                <div class="col-md-8">
+                    <input class="form-control" type="text" value="{{username}}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label">Full Name </label>
+                <div class="col-lg-8">
+                  <input class="form-control" type="text" value="{{user.name}}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label">Email</label>
+                <div class="col-lg-8">
+                  <input class="form-control" type="text" value="{{user.email}}">
+                </div>
+            </div>
+            <div class="form-group">
+            <label class="col-lg-3 control-label">Gender</label>
+            <div class="col-lg-8">
+              <div class="ui-select">
+                <select id="user_time_zone" class="form-control" style="height: 34px;">
+                    <option value="select">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="can't say">Can't Say</option>
+                    <option value="other">Other</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          
+            <div class="form-group">
+                <label class="col-md-3 control-label">Birth Date</label>
+                <div class="col-md-8">
+                  <input class="form-control" type="date" value="{{user.bdate}}">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">Phone number</label>
+                <div class="col-md-8">
+                  <input class="form-control" type="text" value="{{user.phone}}">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">Old Password</label>
+                <div class="col-md-8">
+                  <input class="form-control" type="password" value="">
+                </div>
+            </div>
+
+          <div class="form-group">
+            <label class="col-md-3 control-label">New Password</label>
+            <div class="col-md-8">
+              <input class="form-control" type="password" value="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label"></label>
+            <div class="col-md-8">
+              <input type="button" class="btn btn-primary" value="Save Changes">
+              <input type="reset" class="btn btn-danger ml-4" value="Cancel">
+            </div>
+          </div>
+        </form>
+      </div>
+  </div>
+</div>
+<hr>
+{% endblock %}
