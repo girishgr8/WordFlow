@@ -353,6 +353,12 @@ def profile(user):
 			return render_template('profile.html', username=session["username"], logged_in=True, user=user, form=form)
 	else:
 		return render_template('profile.html', username=session["username"], logged_in=True, user=user, form=form)
+
+@app.route('/<user>/saved')
+@is_logged_in
+def savedPosts(user):
+	return render_template('saved.html', username=user, logged_in=True)
+
 if __name__ == "__main__":
 # debug=True helps to render changes of website without need for running the server again & again....
 	app.run(debug=True)

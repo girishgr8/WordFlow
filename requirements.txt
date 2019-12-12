@@ -2,12 +2,10 @@
 # Command: pip install -r requirements.txt
 
 Flask==1.0.2
-mongoengine==0.18.2
 Flask-Mail==0.9.1
-Flask-PyMongo==2.3.0
-flask-bcrypt==0.7.1
-flask-login==0.4.1
+Flask-Bcrypt==0.7.1
+Flask-Login==0.4.1
 Flask-WTF==0.14.2
+Flask-SQLAlchemy==2.4.1
 passlib==1.7.2
-# To connect to online MongoDB atlas we need dnspython module....
-dnspython==1.16.0
+

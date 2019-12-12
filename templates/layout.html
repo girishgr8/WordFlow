@@ -25,7 +25,19 @@
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
   <script src="https://kit.fontawesome.com/08e4ab6b32.js" crossorigin="anonymous"></script>
-
+  <link rel="apple-touch-icon" sizes="57x57" href="{{url_for('static', filename='images/favicons/apple-icon-57x57.png')}}">
+  <link rel="apple-touch-icon" sizes="60x60" href="{{url_for('static', filename='images/favicons/apple-icon-60x60.png')}}">
+  <link rel="apple-touch-icon" sizes="72x72" href="{{url_for('static', filename='images/favicons/apple-icon-72x72.png')}}">
+  <link rel="apple-touch-icon" sizes="76x76" href="{{url_for('static', filename='images/favicons/apple-icon-76x76.png')}}">
+  <link rel="apple-touch-icon" sizes="114x114" href="{{url_for('static', filename='images/favicons/apple-icon-114x114.png')}}">
+  <link rel="apple-touch-icon" sizes="120x120" href="{{url_for('static', filename='images/favicons/apple-icon-120x120.png')}}">
+  <link rel="apple-touch-icon" sizes="144x144" href="{{url_for('static', filename='images/favicons/apple-icon-144x144.png')}}">
+  <link rel="apple-touch-icon" sizes="152x152" href="{{url_for('static', filename='images/favicons/apple-icon-152x152.png')}}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{url_for('static', filename='images/favicons/apple-icon-180x180.png')}}">
+  <link rel="icon" type="image/png" sizes="192x192"  href="{{url_for('static', filename='images/favicons/android-icon-192x192.png')}}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{url_for('static', filename='images/favicons/favicon-32x32.png')}}">
+  <link rel="icon" type="image/png" sizes="96x96" href="{{url_for('static', filename='images/favicons/favicon-96x96.png')}}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{url_for('static', filename='images/favicons/favicon-16x16.png')}}">
   <!-- Link all the custom stylesheets and scripts here -->
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/layout.css') }}">
   <script src="{{ url_for('static', filename='javascripts/register.js') }}"></script>
@@ -82,10 +94,10 @@
         <a data-toggle="dropdown" class="nav-link dropdown-toggle" href="#"><span style="margin: 0% 8px;"><i class="fas fa-user"></i></span> {{ username }} </b></a>
         <ul class="dropdown-menu" style="width: auto; padding: 5px 0px">          
           <li><a href="/profile/{{username}}" class="dropdown-item" style="padding: 6px 10px;"><span style="margin: 0% 8px;"><i class="fas fa-edit"></i></span>Edit Profile</a></li>
-          <li><a href="#" class="dropdown-item" style="padding: 6px 10px;"><span style="margin: 0% 8px;"><i class="fas fa-cog"></i></span>Settings</a></li>
+          <!-- <li><a href="#" class="dropdown-item" style="padding: 6px 10px;"><span style="margin: 0% 8px;"><i class="fas fa-cog"></i></span>Settings</a></li> -->
           <li><a href="/{{username}}/blogs" class="dropdown-item" style="padding: 6px 10px;"><span style="margin: 0% 8px;"><i class="fas fa-blog"></i></span>My Blogs</a></li>
           <li><a href="/{{username}}/saved" class="dropdown-item" style="padding: 6px 10px;"><span style="margin: 0% 8px;"><i class="fas fa-bookmark"></i></span>Saved Blogs</a></li>
-          <li><a href="#" class="dropdown-item" style="padding: 6px 10px;"><span style="margin: 0% 8px;"><i class="fas fa-bell"></i></span>Notifications</a></li>
+          <!-- <li><a href="#" class="dropdown-item" style="padding: 6px 10px;"><span style="margin: 0% 8px;"><i class="fas fa-bell"></i></span>Notifications</a></li> -->
           <li><a href="/logout" class="dropdown-item" style="padding: 6px 10px;"><span style="margin: 0% 8px;"><i class="fas fa-sign-out-alt"></i></span>Logout</a></li>
         </ul>
       </li>
