@@ -14,6 +14,11 @@
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>    
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -21,12 +26,13 @@
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
   <script src="https://kit.fontawesome.com/08e4ab6b32.js" crossorigin="anonymous"></script>
 
-    <!-- Link all the custom stylesheets and scripts here -->
+  <!-- Link all the custom stylesheets and scripts here -->
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/layout.css') }}">
   <script src="{{ url_for('static', filename='javascripts/register.js') }}"></script>
   
 </head>
-<body>
+<body id="page-top">
+  
 <nav class="navbar sticky-top navbar-default navbar-expand-lg navbar-dark bg-dark" style="border: none;">
 	<div class="navbar-header d-flex col">
 		<a class="navbar-brand" href="/admin">Blogger<b>Bit</b></a>  		
@@ -108,6 +114,8 @@
     {% endif %}
 	</div>
 </nav>
+  {% block home_content %} 
+  {% endblock %}
   <div class="container">
     {% include 'messages.html'%}
   	{% block content %} 

@@ -120,9 +120,9 @@ class RegisterForm(Form):
 		])
 	confirm = PasswordField('Confirm Password')
 	birthDate = DateField('Birth Date', [DataRequired()])
-	phone = StringField('Phone Number')
+	phone = TextField('Phone Number')
 	choices = [('', 'Select Gender'),('male', 'Male'), ('female', 'Female'), ('can\'t say', 'Can\'t Say'), ('not specified', 'Not Specified')]
-	gender = SelectField('Gender', choices=choices)
+	gender = SelectField('Gender', choices=choices, default='')
 	profile_image = FileField('Profile Image', [validators.optional()])
 
 @app.route('/register' , methods=['POST', 'GET'])
@@ -301,15 +301,58 @@ def userBlogs(user):
 		post.last_updated=str(post.last_updated).split('.')[0]
 	return render_template('post.html', username=session["username"], logged_in=True, post=posts, userBlog=True)
 
+@app.route('/help')
+def help():
+	if 'logged_in' in session:
+		return render_template('help.html', username=session["username"], logged_in=True)
+	else:
+		return render_template('help.html', logged_in=False)
+
+class ProfileForm(Form):
+	username = TextField('Username', [DataRequired(), validators.length(min=4, max=13)])
+	name = TextField('Full Name', [DataRequired(), validators.length(max=80)])
+	email = EmailField('Email', [DataRequired(), Email()])
+	birthDate = DateField('Birth Date', [DataRequired()])
+	phone = TextField('Phone Number')
+	oldPassword = PasswordField('Old Password', [DataRequired(), validators.length(min=8, max=30)])
+	newPassword = PasswordField('New Password', [DataRequired(), validators.length(min=8, max=30)])
+	choices = [('', 'Select Gender'), ('male', 'Male'), ('female', 'Female'), ('can\'t say', 'Can\'t Say'), ('not specified', 'Not Specified')]
+	gender = SelectField('Gender', choices=choices)
+
 @app.route('/profile/<user>', methods=['GET', 'POST'])
 @is_logged_in
 def profile(user):
-	if request.method == 'GET':
-		user = User.query.filter_by(username=user).first()
-		print(user.phone)
-		return render_template('profile.html', username=session["username"], logged_in=True, user=user)
-
-
+	user = User.query.filter_by(username=user).first()
+	form = ProfileForm(request.form)
+	if request.method == 'POST' and form.validate():
+		username = request.form["username"]
+		name = request.form["name"]
+		email = request.form["email"]
+		bdate = request.form["birthDate"]
+		phone = request.form["phone"]
+		gender = request.form["gender"]
+		oldPassword = request.form["oldPassword"]
+		newPassword = request.form["newPassword"]
+		try:
+			if sha256_crypt.verify(oldPassword, user.password):
+				user.username = username
+				user.name = name
+				user.email = email
+				user.bdate = bdate
+				user.phone = phone
+				user.gender = gender
+				user.password = sha256_crypt.encrypt(str(newPassword))
+				db.session.commit()
+				flash('Profile edited succesfully !', category='success')
+				return redirect(url_for("dashboard"))
+			else:
+				flash('Kindly enter correct current password', category='danger')
+				return render_template('profile.html', username=session["username"], logged_in=True, user=user, form=form)	
+		except Exception as e:
+			print(e)
+			return render_template('profile.html', username=session["username"], logged_in=True, user=user, form=form)
+	else:
+		return render_template('profile.html', username=session["username"], logged_in=True, user=user, form=form)
 if __name__ == "__main__":
 # debug=True helps to render changes of website without need for running the server again & again....
 	app.run(debug=True)

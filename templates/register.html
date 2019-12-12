@@ -4,7 +4,6 @@
 {% endblock %}
 
 {% from "formhelpers.html" import render_field %}
-
 {% block content %}
 <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='stylesheets/register.css')}}">
 <div class="container">
@@ -66,5 +65,10 @@
         </div>
         </form> 
     </div>
-
+    <style type="text/css">
+        body{
+            /*background-image: url({{url_for("static", filename="images/plain.jpg") }});*/
+            background-color: #fed136;
+        }
+    </style>
 {% endblock %}

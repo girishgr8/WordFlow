@@ -8,7 +8,7 @@
             <div class="row mb-2">
                 <div class="col-md-8">
         	        <h1 class="my-4">Welcome
-        	          <small>{{username}}</small>
+        	          <small style="color: black;">{{username}}</small>
         	        </h1>
     	        </div>
     			<div class="col-md-4">
@@ -76,32 +76,32 @@
 
         <!-- Categories Widget -->
         <div class="card my-4">
-          <h5 class="card-header">Categories</h5>
+          <h5 class="card-header">Help References</h5>
           <div class="card-body">
             <div class="row">
               <div class="col-lg-6">
                 <ul class="list-unstyled mb-0" id="category">
                   <li>
-                    <a href="#">Web Design</a>
+                    <a href="https://www.nomadicmatt.com/travel-blogs/improve-your-travel-writing/">Travel Blog</a>
                   </li>
                   <li>
-                    <a href="#">HTML</a>
+                    <a href="https://cmnh.lstmed.ac.uk/how-to-write-an-academic-blog-in-5-simple-steps">Education Blog</a>
                   </li>
                   <li>
-                    <a href="#">Freelancing</a>
+                    <a href="https://cookieandkate.com/top-20-tips-for-food-blogging/">Food Blog</a>
                   </li>
                 </ul>
               </div>
               <div class="col-lg-6">
                 <ul class="list-unstyled mb-0" id="category">
                   <li>
-                    <a href="#">JavaScript</a>
+                    <a href="https://www.blogtyrant.com/start-a-fashion-blog/">Fashion Blog</a>
                   </li>
                   <li>
-                    <a href="#">CSS</a>
+                    <a href="https://www.outbrain.com/help/advertisers/music-blog/">Music Blog</a>
                   </li>
                   <li>
-                    <a href="#">Tutorials</a>
+                    <a href="https://www.wikihow.com/Write-a-Fitness-Blog">Fitness Blog</a>
                   </li>
                 </ul>
               </div>
@@ -110,9 +110,16 @@
         </div>
 
         <div class="card my-4">
-          <h5 class="card-header">Side Widget</h5>
+          <h5 class="card-header">2019 Year Ending Specials</h5>
           <div class="card-body">
-            You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
+            Hey <b class="text-primary">{{username}}</b>, as we are heading towards end of year 2019,
+            here is a special offer for you. <br><br>
+            <p>
+              <b class="text-info">The Hurry-Up Limited Offer</b><br>
+                Here’s a great example of a hurry-up limited offer, also known as a limited-period offer, from our community. Here's huge discount of 20 percent off for premium plan. This offer is valid till “31st December, 2019!”
+                <br>
+                This is your absolute last chance to get a discount on our Premium Plan, take advantage of this great offer !
+            </p>
           </div>
         </div>
       </div>
@@ -129,6 +136,12 @@
 	</div>
 	{% endif %}
 	</div>
+  <style type="text/css">
+    body{
+      background-color: #f5f2d0;
+    }
+    </style>
+    
 <!-- Modal 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">

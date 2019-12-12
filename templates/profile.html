@@ -3,103 +3,169 @@
     Edit Profile
 {% endblock %}
 
+{% from "formhelpers.html" import render_field %}
 
 {% block content %}
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/profile.css') }}">
-	<div class="container">
+<div class="container">
     <h1>Edit Profile</h1>
     <hr>
     <div class="row">
       <!-- left column -->
-      <div class="col-md-3">
-        <div class="text-center">
-          <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
-          <h6>Upload a different photo...</h6>
-          
-          <input type="file" class="form-control">
+        <div class="col-md-3">
+            <div class="text-center">
+                <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
+                <h6>Upload a different photo...</h6>
+                <input type="file" class="form-control my-3 pt-1">
+            </div>
         </div>
-      </div>
       
-      <!-- edit form column -->
-      <div class="col-md-9 personal-info">
-        <div class="alert alert-info alert-dismissable">
-          <a class="panel-close close" data-dismiss="alert">×</a> 
-          <i class="fa fa-coffee"></i>
-          This is an <strong>alert</strong>. Use this to show important messages to the user.
-        </div>
-        <h3>Personal info</h3>
+        <!-- edit form column -->
+        <div class="col-md-9 personal-info">
+            <div class="alert alert-info alert-dismissable">
+                <a class="panel-close close" data-dismiss="alert">×</a> 
+                <i class="fa fa-coffee"></i>
+                Welcome <strong>{{user.username}}</strong>. Edit to make changes to your profile.
+            </div>
+            <!-- <h3>Personal info</h3> -->
         
-        <form class="form-horizontal" role="form">
-            <div class="form-group">
-                <label class="col-md-3 control-label">Username </label>
-                <div class="col-md-8">
-                    <input class="form-control" type="text" value="{{username}}">
+            <form class="form-horizontal" role="form" method="POST">
+                <div class="form-group">
+                    {{form.username.label(class_="col-md-3 control-label", for=form.username.name)}}
+                    <div class="col-md-8">
+                        {{ form.username(class_="form-control", value=user.username) }}
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="col-lg-3 control-label">Full Name </label>
-                <div class="col-lg-8">
-                  <input class="form-control" type="text" value="{{user.name}}">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-lg-3 control-label">Email</label>
-                <div class="col-lg-8">
-                  <input class="form-control" type="text" value="{{user.email}}">
-                </div>
-            </div>
-            <div class="form-group">
-            <label class="col-lg-3 control-label">Gender</label>
-            <div class="col-lg-8">
-              <div class="ui-select">
-                <select id="user_time_zone" class="form-control" style="height: 34px;">
-                    <option value="select">Select Gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="can't say">Can't Say</option>
-                    <option value="other">Other</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          
-            <div class="form-group">
-                <label class="col-md-3 control-label">Birth Date</label>
-                <div class="col-md-8">
-                  <input class="form-control" type="date" value="{{user.bdate}}">
-                </div>
-            </div>
+                {% if form.username.errors %}
+                    <div class="errors">
+                        {% for error in form.username.errors %}
+                            <p class="text-danger">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
 
-            <div class="form-group">
-                <label class="col-md-3 control-label">Phone number</label>
-                <div class="col-md-8">
-                  <input class="form-control" type="text" value="{{user.phone}}">
+                <div class="form-group">
+                    {{form.name.label(class_="col-md-3 control-label", for=form.name.name)}}
+                    <div class="col-md-8">
+                        {{ form.name(class_="form-control", value=user.name) }}
+                    </div>
                 </div>
-            </div>
+                {% if form.name.errors %}
+                    <div class="errors">
+                        {% for error in form.name.errors %}
+                            <p class="text-danger">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
 
-            <div class="form-group">
-                <label class="col-md-3 control-label">Old Password</label>
-                <div class="col-md-8">
-                  <input class="form-control" type="password" value="">
+                <div class="form-group">
+                    {{form.email.label(class_="col-md-3 control-label", for=form.email.name)}}
+                    <div class="col-md-8">
+                        {{ form.email(class_="form-control", value=user.email) }}
+                    </div>
                 </div>
-            </div>
+                {% if form.email.errors %}
+                    <div class="errors">
+                        {% for error in form.email.errors %}
+                            <p class="text-danger">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
 
-          <div class="form-group">
-            <label class="col-md-3 control-label">New Password</label>
-            <div class="col-md-8">
-              <input class="form-control" type="password" value="">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-md-3 control-label"></label>
-            <div class="col-md-8">
-              <input type="button" class="btn btn-primary" value="Save Changes">
-              <input type="reset" class="btn btn-danger ml-4" value="Cancel">
-            </div>
-          </div>
-        </form>
-      </div>
-  </div>
+                <div class="form-group">
+                    {{form.birthDate.label(class_="col-md-3 control-label", for=form.birthDate.name)}}
+                    <div class="col-md-8">
+                        {{ form.birthDate(class_="form-control", value=user.bdate) }}
+                    </div>
+                </div>
+                {% if form.birthDate.errors %}
+                    <div class="errors">
+                        {% for error in form.birthDate.errors %}
+                            <p class="text-danger">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <div class="form-group">
+                    {{form.phone.label(class_="col-md-3 control-label", for=form.phone.name)}}
+                    <div class="col-md-8">
+                        {{ form.phone(class_="form-control", value=user.phone) }}
+                    </div>
+                </div>
+                {% if form.phone.errors %}
+                    <div class="errors">
+                        {% for error in form.phone.errors %}
+                            <p class="text-danger">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <div class="form-group">
+                    {{form.gender.label(class_="col-lg-3 control-label", for=form.gender.name)}}
+                    <div class="col-lg-8">
+                        <div class="ui-select">
+                            {{form.gender(class_="form-control", style="height: 34px")}}
+                        </div>
+                    </div>
+                </div>
+                {% if form.gender.errors %}
+                    <div class="errors">
+                        {% for error in form.gender.errors %}
+                            <p class="text-danger">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <div class="form-group">
+                    {{form.oldPassword.label(class_="col-md-3 control-label", for=form.oldPassword.name)}}
+                    <div class="col-md-8">
+                        {{ form.oldPassword(class_="form-control", placeholder="Enter current password") }}
+                    </div>
+                </div>
+                {% if form.oldPassword.errors %}
+                    <div class="errors">
+                        {% for error in form.oldPassword.errors %}
+                            <p class="text-danger">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <div class="form-group">
+                    {{form.newPassword.label(class_="col-md-3 control-label", for=form.newPassword.name)}}
+                    <div class="col-md-8">
+                        {{ form.newPassword(class_="form-control", placeholder="Enter new password") }}
+                    </div>
+                </div>
+                {% if form.newPassword.errors %}
+                    <div class="errors">
+                        {% for error in form.newPassword.errors %}
+                            <p class="text-danger">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label"></label>
+                    <div class="col-md-8">
+                      <button type="submit" class="btn btn-primary">Save Changes</button>
+                      <input type="reset" class="btn btn-danger ml-4" value="Cancel">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 <hr>
+
+<style type="text/css">
+    body{
+        background-color: #f5f2d0;
+    }
+    hr{
+        border: 0.15rem solid rgba(0,0,0,0.4);
+    }
+</style>
 {% endblock %}
+
+
+
+
