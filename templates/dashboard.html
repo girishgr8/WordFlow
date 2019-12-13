@@ -12,21 +12,24 @@
         	        </h1>
     	        </div>
     			<div class="col-md-4">
-    				<a href="/{{username}}/new/" class="btn btn-primary py-auto mt-4 pull-right"><span class="pr-3"><i class="fas fa-pencil-alt"></i></span><b>New Post</b></a>
+    				<a href="/{{username}}/new/" class="btn btn-primary py-auto mt-4 pull-right"><span class="pr-3"><i class="fas fa-plus"></i></span><b>New Blog</b></a>
     			</div>
 		    </div>
         {% for post in posts %}
-        <div class="card mb-4">
-            <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
-            <div class="card-body">
+        <div class="card mb-5 border-primary" id="{{post.pid}}" >
+            <img class="card-img-top" src="http://placehold.it/750x300" alt="By - {{post.author}}">
+            <div class="card-header bg-transparent border-primary">
+              <p class="card-text mb-0 text-default"><b><i class="fas fa-tags text-primary mr-2"></i> {{post.tags}}</b></p>
+            </div>
+            <div class="card-body border-primary">
                 <h2 class="card-title">{{post.title}}</h2>
                 <p class="card-text">{{post.content}}</p>
                 <div class="row my-4">
-                    <div class="col-md-6 pl-4">
+                    <div class="col-md-6 col-xs-6 pl-4">
                         <a href="/{{post.author}}/view/{{post.pid}}" class="btn btn-primary">Read More &rarr;</a>
                     </div>
-                    <div class="col-md-6 text-right">
-                        <p class="mb-0 text-primary" style="font-size: 17px;"><b>Written By - {{post.author}}</b></p>
+                    <div class="col-md-6 col-xs-6 text-right">
+                        <p class="mb-0 text-primary" style="font-size: 17px;"><span class="pr-3"><i class="fas fa-pencil-alt"></i></span><b> {{post.author}}</b></p>
                     </div>
                 </div>
     			<!--
@@ -34,7 +37,7 @@
     			<a href="/delete/{{post.pid}}" class="btn btn-danger"><span class="px-2"><i class="fas fa-trash-alt"></i></span>Delete</a>
                 -->
             </div>
-            <div class="card-footer text-muted">
+            <div class="card-footer text-muted border-primary">
           	    <div class="row">
 	          	    <div class="col-md-6">
                         Posted on {{post.created_on}}
@@ -136,11 +139,11 @@
 	</div>
 	{% endif %}
 	</div>
-  <style type="text/css">
+  <!-- <style type="text/css">
     body{
       background-color: #f5f2d0;
     }
-    </style>
+  </style> -->
     
 <!-- Modal 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -163,5 +166,6 @@
   </div>
 </div>
 -->
+
 {% endblock %}
 

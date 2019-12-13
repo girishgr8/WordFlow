@@ -22,7 +22,7 @@ mail = Mail(app)
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app.secret_key = params["SECRET_KEY"]
-senderEmail = 'codeintegrate1999@gmail.com'
+senderEmail = 'wordflow@gmail.com'
 # Set MONGO_URI for local dev server...
 # app.config["MONGO_URI"] = "mongodb://localhost:27017/bloggerbit"
 app.config['MAIL_SERVER']='smtp.gmail.com'
@@ -132,7 +132,7 @@ def register():
 		username = request.form["username"]
 		name = request.form["name"]
 		email = request.form["email"]
-		password = sha256_crypt.encrypt(str(request.form["password"]))
+		password = sha256_crypt.hash(str(request.form["password"]))
 		bdate = request.form["birthDate"]
 		gender = request.form["gender"]
 		profile_image = request.files["profile_image"]
@@ -341,7 +341,7 @@ def profile(user):
 				user.bdate = bdate
 				user.phone = phone
 				user.gender = gender
-				user.password = sha256_crypt.encrypt(str(newPassword))
+				user.password = sha256_crypt.hash(str(newPassword))
 				db.session.commit()
 				flash('Profile edited succesfully !', category='success')
 				return redirect(url_for("dashboard"))

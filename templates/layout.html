@@ -3,7 +3,7 @@
 <head>
   <title>{% block title %} {% endblock %}</title>
   <meta name="author" content="Girish Thatte">
-  <meta name="keywords" content="Blog, Blog Website, BloggerBit, BlogBit">
+  <meta name="keywords" content="Blog, Blog Website, WordFlow">
   <meta name="description" content="Free Blog Website">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,7 +24,6 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-  <script src="https://kit.fontawesome.com/08e4ab6b32.js" crossorigin="anonymous"></script>
   <link rel="apple-touch-icon" sizes="57x57" href="{{url_for('static', filename='images/favicons/apple-icon-57x57.png')}}">
   <link rel="apple-touch-icon" sizes="60x60" href="{{url_for('static', filename='images/favicons/apple-icon-60x60.png')}}">
   <link rel="apple-touch-icon" sizes="72x72" href="{{url_for('static', filename='images/favicons/apple-icon-72x72.png')}}">
@@ -40,14 +39,15 @@
   <link rel="icon" type="image/png" sizes="16x16" href="{{url_for('static', filename='images/favicons/favicon-16x16.png')}}">
   <!-- Link all the custom stylesheets and scripts here -->
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/layout.css') }}">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
+  <!-- <script src="https://kit.fontawesome.com/08e4ab6b32.js" crossorigin="anonymous"></script> -->
   <script src="{{ url_for('static', filename='javascripts/register.js') }}"></script>
   
 </head>
 <body id="page-top">
-  
 <nav class="navbar sticky-top navbar-default navbar-expand-lg navbar-dark bg-dark" style="border: none;">
 	<div class="navbar-header d-flex col">
-		<a class="navbar-brand" href="/admin">Blogger<b>Bit</b></a>  		
+		<a class="navbar-brand" href="/admin">Word<b>Flow</b></a>  		
 		<button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle navbar-toggler ml-auto">
 			<span class="navbar-toggler-icon"></span>
 			<span class="icon-bar"></span>
@@ -96,7 +96,7 @@
           <li><a href="/profile/{{username}}" class="dropdown-item" style="padding: 6px 10px;"><span style="margin: 0% 8px;"><i class="fas fa-edit"></i></span>Edit Profile</a></li>
           <!-- <li><a href="#" class="dropdown-item" style="padding: 6px 10px;"><span style="margin: 0% 8px;"><i class="fas fa-cog"></i></span>Settings</a></li> -->
           <li><a href="/{{username}}/blogs" class="dropdown-item" style="padding: 6px 10px;"><span style="margin: 0% 8px;"><i class="fas fa-blog"></i></span>My Blogs</a></li>
-          <li><a href="/{{username}}/saved" class="dropdown-item" style="padding: 6px 10px;"><span style="margin: 0% 8px;"><i class="fas fa-bookmark"></i></span>Saved Blogs</a></li>
+          <!-- <li><a href="/{{username}}/saved" class="dropdown-item" style="padding: 6px 10px;"><span style="margin: 0% 8px;"><i class="fas fa-bookmark"></i></span>Saved Blogs</a></li> -->
           <!-- <li><a href="#" class="dropdown-item" style="padding: 6px 10px;"><span style="margin: 0% 8px;"><i class="fas fa-bell"></i></span>Notifications</a></li> -->
           <li><a href="/logout" class="dropdown-item" style="padding: 6px 10px;"><span style="margin: 0% 8px;"><i class="fas fa-sign-out-alt"></i></span>Logout</a></li>
         </ul>
@@ -138,7 +138,7 @@
   <div class="container-fluid text-center text-md-left">
     <div class="row" id="footer-content">
       <div class="col-md-6 mt-md-0 mt-3">
-        <h5 class="text-uppercase">BloggerBit Inc.</h5>
+        <h5 class="text-uppercase">WordFlow Inc.</h5>
         <p>An easy to use platform for reading, writing posts.</p>
       </div>
       <hr class="clearfix w-100 d-md-none pb-3">
@@ -166,7 +166,7 @@
   </div>
   	<div class="row"  style="border: 1px solid white;">
   		<div class="footer-copyright text-center py-3 col-sm-6" style="color: white;">© 2019 Copyright:
-    		<a href="https://mdbootstrap.com/education/bootstrap/"> BloggerBit.com</a>
+    		<a href="https://mdbootstrap.com/education/bootstrap/"> WordFlow.com</a>
     	</div>
     	<div class="footer-copyright text-center py-3 col-sm-6">
     	<ul class="list-inline">
