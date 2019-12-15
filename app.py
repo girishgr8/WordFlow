@@ -128,22 +128,34 @@ class RegisterForm(Form):
 @app.route('/register' , methods=['POST', 'GET'])
 def register():
 	form = RegisterForm(request.form)
-	if request.method == 'POST' and form.validate():
+	#if user logins from register page.....
+	try:
 		username = request.form["username"]
-		name = request.form["name"]
-		email = request.form["email"]
-		password = sha256_crypt.hash(str(request.form["password"]))
-		bdate = request.form["birthDate"]
-		gender = request.form["gender"]
-		profile_image = request.files["profile_image"]
-		user = User(username=username, email=email, name=name, password=password, bdate=bdate, gender=gender, joined_on=datetime.datetime.utcnow())
-		db.session.add(user)
-		db.session.commit()
-		session['username']	= username
-		session['logged_in'] = True
-		flash('Successfully created account !', category='success')
-		return redirect(url_for("dashboard"))
-	return render_template("register.html", form=form)
+		password = request.form["password"]
+		return permit_login(username, password)
+	except Exception as e:
+		pass
+		try:
+			if request.method == 'POST' and form.validate():
+				username = request.form["username"]
+				name = request.form["name"]
+				email = request.form["email"]
+				password = sha256_crypt.hash(str(request.form["password"]))
+				bdate = request.form["birthDate"]
+				gender = request.form["gender"]
+				profile_image = request.files["profile_image"]
+				user = User(username=username, email=email, name=name, password=password, bdate=bdate, gender=gender, joined_on=datetime.datetime.utcnow())
+				db.session.add(user)
+				db.session.commit()
+				session['username']	= username
+				session['logged_in'] = True
+				flash('Successfully created account !', category='success')
+				return redirect(url_for("dashboard"))
+			else:
+				return render_template("register.html", form=form)
+		except Exception as e:
+			flash('Some error occured.', category='danger')
+			return render_template('register.html', form=form)
 
 @app.route('/dashboard' , methods=['POST', 'GET'])
 @is_logged_in
@@ -162,16 +174,36 @@ def dashboard():
 @app.route("/about", methods=['POST', 'GET'])
 def about():
 	if request.method == 'POST':
-		#if user logins in after reading about.....
-		username = request.form["username"]
-		password = request.form["password"]
-		return permit_login(username, password)
+		try:
+			#if user logins in from about page.....
+			username = request.form["username"]
+			password = request.form["password"]
+			return permit_login(username, password)
+		except Exception as e:
+			pass
+			try:
+				notifMailID = request.form["notifMailID"]
+				if not(notifMailID == ''):
+					msg = Message("Hello",sender=params["MAIL_USER"], recipients=[params["MAIL_USER"]])
+					msg.html = 'Email ID: '+notifMailID
+					mail.send(msg)
+					flash('You\'ll be soon notified about the launch updates !', category='success')
+					if 'logged_in' in session:
+						return redirect(url_for('dashboard'))
+					else:
+						return render_template('about.html', logged_in=False, rel_date=params["RELEASE_DATE"])
+				else:
+					flash('Please enter an email address...', category='danger')
+					return render_template('about.html', logged_in=False, rel_date=params["RELEASE_DATE"])		
+			except Exception as e:
+				flash('Some error occured...!', category='danger')
+				return render_template('about.html',logged_in=False, rel_date=params["RELEASE_DATE"])
 
 	elif request.method == 'GET':
 		if 'logged_in' in session:
-			return render_template("about.html", username=session['username'], logged_in=True)
+			return render_template("about.html", username=session['username'], logged_in=True, rel_date=params["rel_date"])
 		else:	
-			return render_template("about.html", logged_in=False)
+			return render_template("about.html", logged_in=False, rel_date=params["RELEASE_DATE"])
 
 @app.route("/contact", methods=['POST', 'GET'])
 def contact():
@@ -240,7 +272,6 @@ def newPost(user):
 			flash('New post saved sucesfully', category='success')
 			return redirect(url_for('dashboard'))
 		except Exception as e:
-			print(e)
 			flash(Markup('<b>Some error occured</b> ! New Post not created..'), category='danger')
 	return render_template('write.html', form=form, username=user)
 
@@ -277,12 +308,19 @@ def deletePost(pid):
 		flash('Post deleted succesfully', category='success')
 	return redirect(url_for('dashboard'))
 
-@app.route('/pricing')
+@app.route('/pricing', methods=['POST', 'GET'])
 def pricing():
-	if 'logged_in' in session:
-		return render_template('pricing.html', username=session["username"], logged_in=True)
+	if request.method == 'POST':
+		#if user logins in after checking pricing for various features.....
+		username = request.form["username"]
+		password = request.form["password"]
+		return permit_login(username, password)
 
-	return render_template('pricing.html')
+	elif request.method == 'GET':
+		if 'logged_in' in session:
+			return render_template('pricing.html', username=session["username"], logged_in=True)
+		else:
+			return render_template('pricing.html', logged_in=False)
 
 @app.route('/<user>/view/<int:pid>')
 @is_logged_in
@@ -301,12 +339,18 @@ def userBlogs(user):
 		post.last_updated=str(post.last_updated).split('.')[0]
 	return render_template('post.html', username=session["username"], logged_in=True, post=posts, userBlog=True)
 
-@app.route('/help')
+@app.route('/help', methods=['POST', 'GET'])
 def help():
-	if 'logged_in' in session:
-		return render_template('help.html', username=session["username"], logged_in=True)
-	else:
-		return render_template('help.html', logged_in=False)
+	if request.method == 'POST':
+		# if user logins in after checking for help questions.....
+		username = request.form["username"]
+		password = request.form["password"]
+		return permit_login(username, password)
+	elif request.method == 'GET':
+		if 'logged_in' in session:
+			return render_template('help.html', username=session["username"], logged_in=True)
+		else:
+			return render_template('help.html', logged_in=False)
 
 class ProfileForm(Form):
 	username = TextField('Username', [DataRequired(), validators.length(min=4, max=13)])
@@ -349,15 +393,9 @@ def profile(user):
 				flash('Kindly enter correct current password', category='danger')
 				return render_template('profile.html', username=session["username"], logged_in=True, user=user, form=form)	
 		except Exception as e:
-			print(e)
 			return render_template('profile.html', username=session["username"], logged_in=True, user=user, form=form)
 	else:
 		return render_template('profile.html', username=session["username"], logged_in=True, user=user, form=form)
-
-@app.route('/<user>/saved')
-@is_logged_in
-def savedPosts(user):
-	return render_template('saved.html', username=user, logged_in=True)
 
 if __name__ == "__main__":
 # debug=True helps to render changes of website without need for running the server again & again....

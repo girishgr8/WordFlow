@@ -113,6 +113,9 @@ body{
 		max-width: 158px;
 		border-radius: 0 2px 2px 0;
 	}    	
+	a.nav-link{
+		font-family: 'Roboto Slab';
+	}
 	a.nav-link .dropdown-toggle::after{
 		margin-top: 10px;
 	}

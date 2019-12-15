@@ -5,4 +5,136 @@
 
 {% from "formhelpers.html" import render_field %}
 {% block content %}
+<style type="text/css">
+    body{
+        background-color: #ade6e6;
+    }
+    .panel.panel-default{
+        box-shadow: 4px 4px 4px 4px rgba(0,0,0,0.25);
+    }
+</style>
+<h1 class="display-4 text-center">FAQ Questions</h1>
+<div class="container mx-auto my-5">
+    <div class="panel-group" id="faqAccordion">
+        <div class="panel panel-default mb-4">
+            <div class="panel-heading accordion-toggle question-toggle collapsed" data-toggle="collapse" data-parent="#faqAccordion" data-target="#question0">
+                 <h4 class="panel-title">
+                    <a class="ing">Q: There are so many blogs out there – how can I stand out?</a>
+              </h4>
+
+            </div>
+            <div id="question0" class="panel-collapse collapse" style="height: 0px;">
+                <div class="panel-body">
+                    <h5><span class="label label-primary">Answer</span></h5>
+                    <p>The answer to this question is all about you. You are unique, you are different from everyone else. You need to put more of yourself into your content and into your blogging presence in general.
+					<br>
+					By putting more of yourself into the open, the more unique your blog will be. There’s nothing to be afraid of. Just get yourself out there and enjoy the process.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default mb-4">
+            <div class="panel-heading accordion-toggle collapsed question-toggle" data-toggle="collapse" data-parent="#faqAccordion" data-target="#question1">
+                <h4 class="panel-title">
+                    <a class="ing">Q: I don’t have money. How do I get started?</a>
+              	</h4>
+            </div>
+            <div id="question1" class="panel-collapse collapse" style="height: 0px;">
+                <div class="panel-body">
+                    <h5><span class="label label-primary">Answer</span></h5>
+                    <p>This is one of the beauties of blogging. You can start in a few minutes without needing to spend any money at all. Even if you want to do podcasting and video blogging, you don’t need any more equipment than the technology you have inside your smartphone.<br>
+					The biggest investment you will make in blogging is the investment of your time. Blogging simply needs and craves many hours of work in order to work.
+					</p>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default mb-4">
+            <div class="panel-heading accordion-toggle collapsed question-toggle" data-toggle="collapse" data-parent="#faqAccordion" data-target="#question2">
+                 <h4 class="panel-title">
+                    <a class="ing">Q: I don’t have any specific expertise. What should I create content about?</a>
+              </h4>
+
+            </div>
+            <div id="question2" class="panel-collapse collapse" style="height: 0px;">
+                <div class="panel-body mb-4">
+                    <h5><span class="label label-primary">Answer</span></h5>
+                    <p>You need to dig deeper and find what makes you special and different. What is it that you spend many of your hours on? What is it that you enjoy doing in your free time?
+					<br>
+					What is it that you know a lot about? There always is something that you have that other people can find value in. Be it educational, informative and/or entertaining.</p>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default mb-4">
+            <div class="panel-heading accordion-toggle collapsed question-toggle" data-toggle="collapse" data-parent="#faqAccordion" data-target="#question3">
+                 <h4 class="panel-title">
+                    <a class="ing">Q: How much does having a blog cost?</a>
+              </h4>
+            </div>
+            <div id="question3" class="panel-collapse collapse" style="height: 0px;">
+                <div class="panel-body">
+                    <h5><span class="label label-primary">Answer</span></h5>
+                    <p>Normally you would have to pay for the premium features and get access to all our premium features provided to keep your blogs up and running, and contribute to community.
+					<br>
+					So essentially, the cost of running a blog is less than the price of your morning coffee at Starbucks. Not to mention, this investment has the potential to make you full-time profits each month, enough to quit your day job even! I’d say that kind of return is worth the investment.</p>
+                </div>
+            </div>
+        </div>
+
+		<div class="panel panel-default mb-4">
+            <div class="panel-heading accordion-toggle collapsed question-toggle" data-toggle="collapse" data-parent="#faqAccordion" data-target="#question4">
+                 <h4 class="panel-title">
+                    <a class="ing">Q: How long should blog posts be?</a>
+              </h4>
+            </div>
+            <div id="question4" class="panel-collapse collapse" style="height: 0px;">
+                <div class="panel-body">
+                    <h5><span class="label label-primary">Answer</span></h5>
+                    <p>There aren’t exact rules but I recommend always to aim for 1800 words. This amount of content will give search engines a clear idea of the purpose and theme of that post, and it is enough content to thoroughly cover a subject in good detail. The emphasis though should also be on quality.</p>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default mb-4">
+            <div class="panel-heading accordion-toggle collapsed question-toggle" data-toggle="collapse" data-parent="#faqAccordion" data-target="#question5">
+                 <h4 class="panel-title">
+                    <a class="ing">Q: What is a blogger and what do they do?</a>
+              </h4>
+            </div>
+            <div id="question5" class="panel-collapse collapse" style="height: 0px;">
+                <div class="panel-body">
+                    <h5><span class="label label-primary">Answer</span></h5>
+                    <p>Traditionally, a blog was defined as a conversational website page or post that is updated regularly and written in a personal style. So a blogger could be said to be someone who puts a lot of focus on writing and creating content on their website.
+					<br>
+					These days bloggers can build a successful and profitable business around their content when it is high-quality and informative. Income such as via affiliates, by selling eBooks, one’s own online courses etc. mean the chance to monetise blogging.</p>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading accordion-toggle collapsed question-toggle" data-toggle="collapse" data-parent="#faqAccordion" data-target="#question6">
+                 <h4 class="panel-title">
+                    <a class="ing">Q: I am worried about having the confidence to put stuff online. Help!</a>
+              </h4>
+            </div>
+            <div id="question6" class="panel-collapse collapse" style="height: 0px;">
+                <div class="panel-body">
+                    <h5><span class="label label-primary">Answer</span></h5>
+                    <p>One of the most common issues, with starting a blog, is the worry over putting information online and being open to the thoughts and criticisms of the world. Perfecting things and when to go live are also questions that are common when I talk with new bloggers.
+					<br><br>
+					My advice is that there you do not need to worry about trying to create perfection but to simply use your blog to express yourself and have a voice online.<b>If you really think about it – what do you really have to lose? I bet the answer when you really consider this question, is – very little to lose, right?!</b>
+					<br><br>
+					You can develop and grow as you write your blog and this can be something that your readers share with you. Take them on a journey! On your journey!
+                    </p>
+                </div>
+            </div>
+        </div>      
+    </div>
+</div>
+<style type="text/css">
+	a.ing{
+		text-decoration: none;
+	}
+	a.ing:hover{
+		cursor: pointer;
+	}
+</style>
+
 {% endblock %}

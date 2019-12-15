@@ -1,4 +1,37 @@
 {% extends "layout.html" %}
-{% block content %} 
+
+{% block content %}
+<link href="{{url_for('static', filename='stylesheets/about.css')}}" rel="stylesheet">
+<div id="wrapper" style="text-align: center;">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>WordFlow</h1>
+          <h2 class="subtitle">We're working hard to improve our website and we'll be ready to launch <b>Community Chat</b> feature</h2>
+          <div id="countdown"></div>
+          <form class="form-inline signup" role="form" method="POST">
+            <div class="form-group mx-auto">
+              <input type="email" name="notifMailID" class="form-control" id="exampleInputEmail1" placeholder="Enter your email address">
+              <button type="submit" class="btn btn-theme">Get notified !</button>
+            </div>
+          </form>
+
+          <div class="social">
+            <a href="https://www.facebook.com"><i class="fab fa-facebook" aria-hidden="true"></i></a>
+            <a href="#"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+            <a href="#"><i class="fab fa-google-plus" aria-hidden="true"></i></a>
+            <a href="#"><i class="fab fa-linkedin" aria-hidden="true"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="{{url_for('static', filename='javascripts/jquery.countdown.min.js')}}"></script>
+  <script type="text/javascript">
+    $('#countdown').countdown("{{rel_date}}", function(event) {
+      $(this).html(event.strftime('%w weeks %d days <br /> %H:%M:%S'));
+    });
+  </script>
+
 
 {% endblock %}
