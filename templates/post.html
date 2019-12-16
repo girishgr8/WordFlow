@@ -18,7 +18,7 @@
         	        <h2 class="my-4">Your Blogs</h2>
     	        </div>
     			<div class="col-md-4">
-    				<a href="/{{username}}/new/" class="btn btn-primary py-auto mt-4 pull-right"><span class="pr-3"><i class="fas fa-pencil-alt"></i></span><b>New Post</b></a>
+    				<a href="/{{username}}/new/" class="btn btn-primary py-auto mt-4 pull-right"><span class="pr-3"><i class="fas fa-plus"></i></span><b>New Blog</b></a>
     			</div>
     		</div>
             {% endif %}
@@ -35,9 +35,12 @@
                 </div>
             {% endif %}
             {% for p in post %}
-                <div class="card mb-4">
+                <div class="card mb-4 border-primary">
                     <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
-                    <div class="card-body">
+                    <div class="card-header bg-transparent border-primary">
+                        <p class="card-text mb-0 text-default"><b><i class="fas fa-tags text-primary mr-2"></i> {{p.tags}}</b></p>
+                    </div>
+                    <div class="card-body border-primary">
                         <h2 class="card-title">{{p.title}}</h2>
                         <p class="card-text">{{p.content}}</p>
                         <a href="/{{username}}/view/{{p.pid}}" class="btn btn-primary">Read More &rarr;</a>
@@ -45,7 +48,7 @@
                         <a href="/delete/{{p.pid}}" class="btn btn-danger"><span class="px-2"><i class="fas fa-trash-alt"></i></span>Delete</a>
                     </div>
 
-                    <div class="card-footer text-muted">
+                    <div class="card-footer text-muted border-primary">
                         <div class="row">
                             <div class="col-md-6">
                                 Posted on {{p.created_on}}
@@ -58,9 +61,12 @@
                 </div>
             {% endfor %}
             {% else %}
-                <div class="card mb-4">
+                <div class="card mb-4 border-primary">
                     <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
-                    <div class="card-body">
+                    <div class="card-header bg-transparent border-primary">
+                        <p class="card-text mb-0 text-default"><b><i class="fas fa-tags text-primary mr-2"></i> {{post.tags}}</b></p>
+                    </div>
+                    <div class="card-body border-primary">
                         <h2 class="card-title">{{post.title}}</h2>
                         <p class="card-text">{{post.content}}</p>
                         <div class="row">
@@ -70,7 +76,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer text-muted">
+                    <div class="card-footer text-muted border-primary">
                         <div class="row">
                             <div class="col-md-6">
                                 Posted on {{post.created_on}}

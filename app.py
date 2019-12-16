@@ -201,7 +201,7 @@ def about():
 
 	elif request.method == 'GET':
 		if 'logged_in' in session:
-			return render_template("about.html", username=session['username'], logged_in=True, rel_date=params["rel_date"])
+			return render_template("about.html", username=session['username'], logged_in=True, rel_date=params["RELEASE_DATE"])
 		else:	
 			return render_template("about.html", logged_in=False, rel_date=params["RELEASE_DATE"])
 

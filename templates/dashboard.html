@@ -16,7 +16,7 @@
     			</div>
 		    </div>
         {% for post in posts %}
-        <div class="card mb-5 border-primary" id="{{post.pid}}" >
+        <div class="card mb-5 border-primary">
             <img class="card-img-top" src="http://placehold.it/750x300" alt="By - {{post.author}}">
             <div class="card-header bg-transparent border-primary">
               <p class="card-text mb-0 text-default"><b><i class="fas fa-tags text-primary mr-2"></i> {{post.tags}}</b></p>
@@ -50,14 +50,14 @@
         </div>
 		{% endfor %}
         <!-- Pagination -->
-        <ul class="pagination justify-content-center mb-4">
+        <!-- <ul class="pagination justify-content-center mb-4">
           <li class="page-item disabled">
             <a class="page-link" href="#">&larr; Older</a>
           </li>
           <li class="page-item">
             <a class="page-link" href="#">Newer &rarr;</a>
           </li>
-        </ul>
+        </ul> -->
 
       </div>
 
