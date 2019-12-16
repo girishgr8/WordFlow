@@ -273,7 +273,7 @@ def newPost(user):
 			return redirect(url_for('dashboard'))
 		except Exception as e:
 			flash(Markup('<b>Some error occured</b> ! New Post not created..'), category='danger')
-	return render_template('write.html', form=form, username=user)
+	return render_template('write.html', form=form, username=user, logged_in=True)
 
 @app.route('/<user>/edit/<int:pid>', methods=['POST', 'GET'])
 @is_logged_in

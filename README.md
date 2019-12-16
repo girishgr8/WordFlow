@@ -35,3 +35,39 @@ http://localhost:5000
 ## Improvements:
 - [ ] Like, Comment, Share.
 - [ ] @mentions, images for blogs.
+
+## DEMO
+**1. Dashboard**
+
+![Dashboard](https://github.com/girishgr8/WordFlow/blob/master/static/images/demos/1.PNG)
+
+**2.Create New Blog**
+
+![New Blog](https://github.com/girishgr8/WordFlow/blob/master/static/images/demos/5.PNG)
+
+**3. Edit Blog**
+
+![Edit Blog](https://github.com/girishgr8/WordFlow/blob/master/static/images/demos/4.PNG)
+
+**4. Edit Profile**
+
+![Edit Profile](https://github.com/girishgr8/WordFlow/blob/master/static/images/demos/3.PNG)
+
+**5. View Your Blogs**
+
+![Your Blogs](https://github.com/girishgr8/WordFlow/blob/master/static/images/demos/2.PNG)
+
+**6.Contact Community Service**
+
+![Contact Community Service](https://github.com/girishgr8/WordFlow/blob/master/static/images/demos/6.PNG)
+
+**7. New Feature Upcoming**
+
+![New Feature](https://github.com/girishgr8/WordFlow/blob/master/static/images/demos/7.PNG)
+
+
+
+
+
+
+
