@@ -191,13 +191,23 @@ def about():
 					if 'logged_in' in session:
 						return redirect(url_for('dashboard'))
 					else:
-						return render_template('about.html', logged_in=False, rel_date=params["RELEASE_DATE"])
+						if 'logged_in' in session:
+							return render_template('about.html', logged_in=True, username=session['username'], rel_date=params["RELEASE_DATE"])
+						else:
+							return render_template('about.html', logged_in=False, rel_date=params["RELEASE_DATE"])
 				else:
 					flash('Please enter an email address...', category='danger')
-					return render_template('about.html', logged_in=False, rel_date=params["RELEASE_DATE"])		
+					if 'logged_in' in session:
+						return render_template('about.html', logged_in=True, username=session['username'], rel_date=params["RELEASE_DATE"])
+					else:
+						return render_template('about.html', logged_in=False, rel_date=params["RELEASE_DATE"])
 			except Exception as e:
+				print(e)
 				flash('Some error occured...!', category='danger')
-				return render_template('about.html',logged_in=False, rel_date=params["RELEASE_DATE"])
+				if 'logged_in' in session:
+					return render_template('about.html', logged_in=True, username=session['username'], rel_date=params["RELEASE_DATE"])
+				else:
+					return render_template('about.html', logged_in=False, rel_date=params["RELEASE_DATE"])
 
 	elif request.method == 'GET':
 		if 'logged_in' in session:

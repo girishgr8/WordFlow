@@ -1,3 +1,2 @@
-/config.json
-/db.sqlite
 __pycache__
+env
