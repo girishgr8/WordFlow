@@ -16,21 +16,19 @@ with open('config.json') as f:
 
 # Creating instance of Flask...
 app = Flask(__name__)
-# Creating an instance of Mail class ...
-mail = Mail(app)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app.secret_key = params["SECRET_KEY"]
-senderEmail = 'wordflow@gmail.com'
+senderEmail = params["MAIL_USER"]
 # Set MONGO_URI for local dev server...
-# app.config["MONGO_URI"] = "mongodb://localhost:27017/bloggerbit"
+# app.config["MONGO_URI"] = "mongodb://localhost:27017/wordflow"
 app.config['MAIL_SERVER']='smtp.gmail.com'
 # Set path here for any uploads to be done on server side....
 # app.config['UPLOAD_FOLDER'] = './uploads/'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = str(params["MAIL_USER"])
-app.config['MAIL_PASSWORD'] = str(params["MAIL_PASS"])
+app.config['MAIL_USERNAME'] = params["MAIL_USER"]
+app.config['MAIL_PASSWORD'] = params["MAIL_PASS"]
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_DEBUG '] = True
@@ -40,6 +38,9 @@ app.config['MAIL_SUPPRESS_SEND'] = False
 app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'db.sqlite')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+
+# Creating an instance of Mail class ...
+mail = Mail(app)
 
 # Creating an instance of SQLAlchemy class ...
 db = SQLAlchemy(app)
@@ -230,7 +231,7 @@ def contact():
 			email = request.form["email"]
 			#service = request.form["service"]
 			message = request.form["message"]
-			msg = Message("Hello",sender=email, recipients=[senderEmail])
+			msg = Message("Hello",sender=senderEmail, recipients=[email])
 			msg.html = 'Details:<br>Name: '+name+'<br>Email: '+email+'<br>Message: '+message
 			mail.send(msg)
 			flash('Your message has been sent sucesfully !', category='success')
