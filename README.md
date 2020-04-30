@@ -1,4 +1,6 @@
 # Wordflow
+![Made-With-Python](https://img.shields.io/badge/Made_with-Python-informational?style=for-the-badge&logo=python)  ![Made-With-Flask](https://img.shields.io/badge/Made_with-Flask-informational?style=for-the-badge&logo=flask)
+
 Blog Website developed using **Flask Framework**
 ![](https://img.shields.io/github/license/girishgr8/WordFlow)
 
