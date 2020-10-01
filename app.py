@@ -421,6 +421,11 @@ Set Flask Environment to Development mode => set FLASK_ENV=development
 Run the Flask App => flask run
 Flask app url => http://127.0.0.1:5000/ 
 
+for creating sqlite3 DB:
+In python shell do following:
+	from app import db
+	db.create_all()
+
 To get version of python package use command => 
 On Windows: pip freeze | findstr pymongo
 On Linux: pip freeze | grep pymongo
